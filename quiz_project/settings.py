@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!x176)h3hrbfxif(+7!ht7*d@*z%)1+wvj4h&-a2q*+xzseo$9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["quiz_backend.onrender.com"]
+ALLOWED_HOSTS = ["tourarcade-quiz.onrender.com"]
 
 
 # Application definition
