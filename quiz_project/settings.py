@@ -127,6 +127,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
+    "https://tour-arcade-quiz.vercel.app/",
 ]
 
 CORS_ALLOW_CREDENTIALS = True
