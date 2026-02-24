@@ -11,6 +11,8 @@ class GameConsumer(AsyncWebsocketConsumer):
         self.session_id = self.scope["url_route"]["kwargs"]["session_id"]
         self.room_group_name = f"quiz_game_{self.session_id}"
 
+        self.user = self.scope["user"]
+
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
