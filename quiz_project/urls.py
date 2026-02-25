@@ -27,6 +27,7 @@ router.register(r'answers', views.AnswerViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("api/", include("quiz_api.urls")),
     path('api/', include(router.urls)),
     path('api/auth/admin-login/', views.admin_login),
     path('api/auth/team-login/', views.team_login),

@@ -19,14 +19,19 @@ class IsAdmin(permissions.BasePermission):
 
 
 # Authentication Views
-@api_view(['POST'])
-@permission_classes([AllowAny])
+@api_view(["POST"])
 def admin_login(request):
-    """Verify admin code"""
-    code = request.data.get('code')
-    if AdminCode.objects.filter(code=code, is_active=True).exists():
-        return Response({'success': True, 'message': 'Admin authenticated'})
-    return Response({'success': False, 'message': 'Invalid admin code'}, status=400)
+    code = request.data.get("code")
+
+    if not code:
+        return Response({"error": "Code required"}, status=400)
+
+    exists = AdminCode.objects.filter(code=code, is_active=True).exists()
+
+    if exists:
+        return Response({"success": True})
+
+    return Response({"success": False}, status=401)
 
 
 @api_view(['POST'])
@@ -209,3 +214,15 @@ class AnswerViewSet(viewsets.ModelViewSet):
         
         return Response(AnswerSerializer(answer).data)
 
+
+@api_view(["GET"])
+def get_active_session(request):
+    session = GameSession.objects.filter(is_active=True).first()
+
+    if not session:
+        return Response({"error": "No active session"}, status=404)
+
+    return Response({
+        "id": session.id,
+        "name": session.name,
+    })

@@ -1,5 +1,5 @@
 import uuid
-from django.db import models
+from django.db import models, transaction
 
 
 class GameSession(models.Model):
@@ -23,9 +23,17 @@ class GameSession(models.Model):
     buzzer_locked = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        # If this session is being activated
+        if self.is_active:
+            with transaction.atomic():
+                # Deactivate all other sessions
+                GameSession.objects.exclude(pk=self.pk).update(is_active=False)
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
-
 
 class Team(models.Model):
     name = models.CharField(max_length=255)

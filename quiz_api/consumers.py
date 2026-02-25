@@ -5,13 +5,28 @@ from .models import GameSession, Team
 from .serializers import GameSessionSerializer, TeamSerializer
 
 
+
+@database_sync_to_async
+def is_valid_active_session(session_id):
+    return GameSession.objects.filter(
+        id=session_id,
+        is_active=True
+    ).exists()
+
 class GameConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.session_id = self.scope["url_route"]["kwargs"]["session_id"]
-        self.room_group_name = f"quiz_game_{self.session_id}"
-
         self.user = self.scope["user"]
+
+    # 🔒 Check if session exists AND is active
+        valid_session = await is_valid_active_session(self.session_id)
+
+        if not valid_session:
+            await self.close()
+            return
+
+        self.room_group_name = f"quiz_game_{self.session_id}"
 
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -20,7 +35,6 @@ class GameConsumer(AsyncWebsocketConsumer):
 
         await self.accept()
         await self.send_game_state()
-
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(
             self.room_group_name,
@@ -155,6 +169,17 @@ class GameConsumer(AsyncWebsocketConsumer):
             status=data.get("status")
         )
 
+    @database_sync_to_async
+    def get_active_session(self):
+        return GameSession.objects.filter(is_active=True).first()
+
+
+    @database_sync_to_async
+    def is_valid_active_session(self, session_id):
+        return GameSession.objects.filter(
+            id=session_id,
+            is_active=True
+        ).exists()
     # =====================================
     # TIMER
     # =====================================
