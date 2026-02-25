@@ -122,3 +122,19 @@ class AdminCode(models.Model):
 
     def __str__(self):
         return self.code
+
+
+# models.py
+
+class AccessCode(models.Model):
+    ROLE_CHOICES = (
+        ("admin", "Admin"),
+        ("player", "Player"),
+    )
+
+    code = models.CharField(max_length=20, unique=True)
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.code} ({self.role})"        
