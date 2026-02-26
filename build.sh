@@ -2,6 +2,6 @@
 
 pip install -r requirements.txt
 
-python manage.py migrate --fake quiz_api zero
-python manage.py migrate
+python manage.py migrate --fake-initial
+
 python manage.py collectstatic --noinput
