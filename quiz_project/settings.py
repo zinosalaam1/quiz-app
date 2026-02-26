@@ -28,7 +28,11 @@ SECRET_KEY = 'django-insecure-!x176)h3hrbfxif(+7!ht7*d@*z%)1+wvj4h&-a2q*+xzseo$9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["tourarcade-quiz.onrender.com"]
+ALLOWED_HOSTS = [
+    "tourarcade-quiz.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -128,6 +132,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
@@ -152,3 +158,8 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://tourarcade-quiz.onrender.com",
+]
