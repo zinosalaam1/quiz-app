@@ -226,3 +226,16 @@ def get_active_session(request):
         "id": session.id,
         "name": session.name,
     })
+
+
+@api_view(["GET"])
+def ActiveSessionView(request):
+    session = GameSession.objects.filter(is_active=True).first()
+
+    if not session:
+        return Response({"error": "No active session"}, status=404)
+
+    return Response({
+        "id": session.id,
+        "name": session.name,
+    })

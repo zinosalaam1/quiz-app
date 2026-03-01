@@ -5,7 +5,7 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ['id', 'name', 'code', 'score', 'status', 'created_at']
-        read_only_fields = ['created_at']
+
 
 
 class QuestionSerializer(serializers.ModelSerializer):
