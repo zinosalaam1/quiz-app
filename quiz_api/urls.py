@@ -10,7 +10,7 @@ router.register(r"teams", TeamViewSet, basename="team")
 urlpatterns = [
     path("auth/admin-login/", views.admin_login),
     path("active-session/", get_active_session),
-    path("session/active/", views.ActiveSessionView.as_view()),
+    path("session/active/", views.ActiveSessionView),
 ]
 
 urlpatterns += router.urls
