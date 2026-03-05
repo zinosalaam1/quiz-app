@@ -51,7 +51,7 @@ def team_login(request):
 
 # Team ViewSet
 class TeamViewSet(viewsets.ModelViewSet):
-    queryset = Team.objects.all()
+    queryset = Team.objects.all().order_by("id")
     serializer_class = TeamSerializer
     permission_classes = [AllowAny]
     
